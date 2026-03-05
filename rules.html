@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Llamabuzz · Règlement officiel</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0b1120;
+            color: #e2e8f0;
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Background animé */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .background::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -10%;
+            width: 120%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(34, 197, 94, 0.08) 0%, transparent 50%);
+            animation: pulse 10s ease infinite;
+        }
+
+        .background::after {
+            content: '';
+            position: absolute;
+            bottom: -50%;
+            right: -10%;
+            width: 120%;
+            height: 200%;
+            background: radial-gradient(circle at 70% 50%, rgba(34, 197, 94, 0.05) 0%, transparent 50%);
+            animation: pulse 15s ease infinite reverse;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* Logo en haut à gauche */
+        .logo-container {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            z-index: 100;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logo-container:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-circle {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: white;
+            box-shadow: 0 8px 20px -8px rgba(34, 197, 94, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(34, 197, 94, 0.3);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .logo-circle:hover {
+            border-color: #22c55e;
+            box-shadow: 0 12px 25px -10px #22c55e;
+        }
+
+        .logo-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        /* Header modifié pour ne pas cacher le logo */
+        .header {
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(34, 197, 94, 0.2);
+            padding: 1.5rem 2rem 1.5rem 6rem;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #22c55e, #4ade80);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+        }
+
+        .header-badge {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            padding: 0.5rem 1.5rem;
+            border-radius: 40px;
+            color: #22c55e;
+            font-weight: 500;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Main container */
+        .container {
+            max-width: 1000px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+            position: relative;
+        }
+
+        /* En-tête de page */
+        .page-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .page-header h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .page-header h1 i {
+            background: linear-gradient(135deg, #22c55e, #4ade80);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-decoration {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            color: #22c55e;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .decoration-line {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #22c55e, #4ade80, #22c55e, transparent);
+        }
+
+        .last-update {
+            display: inline-block;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            padding: 0.5rem 1.5rem;
+            border-radius: 40px;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        .last-update i {
+            color: #22c55e;
+            margin-right: 0.5rem;
+        }
+
+        /* Grille des articles */
+        .rules-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        /* Carte de règle */
+        .rule-card {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 32px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+            animation: slideIn 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .rule-card:nth-child(1) { animation-delay: 0.1s; }
+        .rule-card:nth-child(2) { animation-delay: 0.2s; }
+        .rule-card:nth-child(3) { animation-delay: 0.3s; }
+        .rule-card:nth-child(4) { animation-delay: 0.4s; }
+        .rule-card:nth-child(5) { animation-delay: 0.5s; }
+        .rule-card:nth-child(6) { animation-delay: 0.6s; }
+        .rule-card:nth-child(7) { animation-delay: 0.7s; }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .rule-card:hover {
+            transform: translateY(-5px);
+            border-color: #22c55e;
+            box-shadow: 0 20px 40px -20px #22c55e;
+        }
+
+        .rule-header {
+            background: linear-gradient(90deg, rgba(34, 197, 94, 0.1), transparent);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .rule-number {
+            width: 40px;
+            height: 40px;
+            background: #22c55e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #0b1120;
+            box-shadow: 0 10px 20px -10px #22c55e;
+        }
+
+        .rule-header h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: white;
+            margin: 0;
+        }
+
+        .rule-content {
+            padding: 2rem;
+        }
+
+        .rule-content p {
+            margin-bottom: 1rem;
+            color: #cbd5e1;
+            font-size: 1rem;
+        }
+
+        .rule-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .rule-content strong {
+            color: #22c55e;
+            font-weight: 600;
+        }
+
+        /* Liste stylisée */
+        .rule-list {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .rule-list li {
+            margin: 0.75rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #94a3b8;
+        }
+
+        .rule-list li i {
+            color: #22c55e;
+            font-size: 0.8rem;
+            width: 20px;
+        }
+
+        /* Badges de prix */
+        .prize-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #22c55e20, #16a34a20);
+            border: 1px solid #22c55e;
+            padding: 0.75rem 1.5rem;
+            border-radius: 40px;
+            margin: 0.5rem 0.5rem 0 0;
+            color: #22c55e;
+            font-weight: 600;
+        }
+
+        .prize-badge i {
+            font-size: 1rem;
+        }
+
+        /* Info supplémentaire */
+        .info-box {
+            background: rgba(34, 197, 94, 0.05);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .info-box i {
+            font-size: 1.5rem;
+            color: #22c55e;
+        }
+
+        .info-box-content h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-box-content p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        /* Section résumé */
+        .summary-section {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(21, 128, 61, 0.1));
+            border-radius: 32px;
+            padding: 2.5rem;
+            margin-top: 3rem;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .summary-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #22c55e;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .summary-item {
+            text-align: center;
+        }
+
+        .summary-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #22c55e;
+            margin-bottom: 0.25rem;
+        }
+
+        .summary-label {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(34, 197, 94, 0.2);
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #22c55e, #4ade80);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: #22c55e;
+        }
+
+        .footer-copyright {
+            color: #475569;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .footer-partners {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+        .partner-badge {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 0.75rem 1.5rem;
+            border-radius: 40px;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        /* Bouton retour */
+        .back-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #22c55e;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 10px 20px -10px #22c55e;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .back-button:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 20px 30px -10px #22c55e;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding-left: 5rem;
+            }
+            
+            .logo-container {
+                top: 1rem;
+                left: 1rem;
+            }
+            
+            .logo-circle {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .container {
+                padding: 0 1.5rem;
+            }
+            
+            .rule-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            
+            .back-button {
+                bottom: 1rem;
+                right: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+
+    <!-- Logo en haut à gauche -->
+    <a href="index.html" class="logo-container">
+        <div class="logo-circle">
+            <img src="https://files.catbox.moe/k4og38.jpg" alt="Llamabuzz Logo">
+        </div>
+    </a>
+
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-text">LLAMABUZZ</div>
+            <div class="header-badge">
+                <i class="fas fa-circle" style="font-size: 0.5rem;"></i>
+                Version 2.0 - 2026
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>
+                <i class="fas fa-scroll"></i>
+                Règlement Officiel
+                <i class="fas fa-gavel"></i>
+            </h1>
+            <div class="header-decoration">
+                <div class="decoration-line"></div>
+                <span>Challenge Llamabuzz</span>
+                <div class="decoration-line"></div>
+            </div>
+            <div class="last-update">
+                <i class="fas fa-clock"></i>
+                Dernière mise à jour : 5 Mars 2026
+            </div>
+        </div>
+
+        <div class="rules-grid">
+            <!-- 1. Présentation -->
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-number">1</div>
+                    <h2>Présentation du concours</h2>
+                </div>
+                <div class="rule-content">
+                    <p>
+                        Le concours <strong>LLAMABUZZ</strong> est une compétition en ligne permettant aux créateurs et 
+                        personnalités populaires sur les réseaux sociaux de s'affronter en récoltant des votes du public.
+                    </p>
+                    <p>
+                        Le candidat ayant obtenu le plus de votes remporte la récompense finale. Le concours se déroule 
+                        en temps réel avec un classement mis à jour dynamiquement.
+                    </p>
+                    <div class="info-box">
+                        <i class="fas fa-trophy"></i>
+                        <div class="info-box-content">
+                            <h3>Pourquoi participer ?</h3>
+                            <p>Gagnez en visibilité, développez votre communauté et remportez des prix exceptionnels !</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Participation -->
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-number">2</div>
+                    <h2>Participation</h2>
+                </div>
+                <div class="rule-content">
+                    <p>
+                        Toute personne peut participer en créant un compte sur la plateforme Llamabuzz. 
+                        L'inscription est gratuite et ouverte à tous.
+                    </p>
+                    <p>
+                        Chaque candidat reçoit un <strong>lien personnel de vote</strong> qu'il peut partager sur ses réseaux sociaux :
+                    </p>
+                    <ul class="rule-list">
+                        <li><i class="fab fa-whatsapp"></i> WhatsApp</li>
+                        <li><i class="fab fa-facebook"></i> Facebook</li>
+                        <li><i class="fab fa-instagram"></i> Instagram</li>
+                        <li><i class="fab fa-tiktok"></i> TikTok</li>
+                        <li><i class="fab fa-telegram"></i> Telegram</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 3. Système de vote -->
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-number">3</div>
+                    <h2>Système de vote</h2>
+                </div>
+                <div class="rule-content">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                        <span class="prize-badge">
+                            <i class="fas fa-coins"></i> 200 FCFA = 1 vote
+                        </span>
+                    </div>
+                    
+                    <p><strong>Pour voter :</strong></p>
+                    <ul class="rule-list">
+                        <li><i class="fas fa-user"></i> Entrez votre nom et numéro de téléphone</li>
+                        <li><i class="fas fa-money-bill-wave"></i> Effectuez le dépôt demandé via le moyen de paiement indiqué</li>
+                        <li><i class="fas fa-check-circle"></i> L'équipe Llamabuzz valide ensuite votre vote</li>
+                        <li><i class="fas fa-chart-line"></i> Une fois validé, le vote est ajouté au compteur du candidat</li>
+                    </ul>
+
+                    <div class="info-box">
+                        <i class="fas fa-clock"></i>
+                        <div class="info-box-content">
+                            <h3>Délai de validation</h3>
+                            <p>Les votes sont validés sous 24h maximum par notre équipe d'administration.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Objectif pour gagner -->
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-number">4</div>
+                    <h2>Objectif pour gagner</h2>
+                </div>
+                <div class="rule-content">
+                    <p>
+                        Le premier candidat atteignant <strong>500 votes ou plus</strong> devient gagnant potentiel.
+                    </p>
+                    <p>
+                        À la fin du concours, le candidat avec le plus de votes remporte :
+                    </p>
+                    
+                    <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin: 1.5rem 0;">
+                        <span class="prize-badge">
+                            <i class="fas fa-trophy"></i> 100 000 FCFA
+                        </span>
+                        <span class="prize-badge">
+                            <i class="fas fa-shirt"></i> Maillot LBS SHOP
+                        </span>
+                    </div>
+
+                    <div class="summary-grid" style="margin-top: 1rem;">
+                        <div class="summary-item">
+                            <div class="summary-value">500</div>
+                            <div class="summary-label">Votes requis</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-value">100k</div>
+                            <div class="summary-label">Gain FCFA</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Anti-fraude -->
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-number">5</div>
+                    <h2>Anti-fraude</h2>
+                </div>
+                <div class="rule-content">
+                    <p>
+                        Toute tentative de fraude, manipulation ou exploitation abusive du système
+                        entraînera la disqualification immédiate du candidat concerné.
+                    </p>
+                    <p>
+                        L'administration Llamabuzz se réserve le droit de vérifier et annuler
+                        tout vote suspect. Les votes frauduleux détectés seront automatiquement supprimés.
+                    </p>
+                    <ul class="rule-list">
+                        <li><i class="fas fa-ban"></i> Utilisation de bots ou scripts automatisés</li>
+                        <li><i class="fas fa-ban"></i> Création de comptes multiples</li>
+                        <li><i class="fas fa-ban"></i> Tentatives de manipulation du système</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 6. Responsabilité -->
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-number">6</div>
+                    <h2>Responsabilité</h2>
+                </div>
+                <div class="rule-content">
+                    <p>
+                        Llamabuzz agit comme plateforme de concours et de visibilité pour les créateurs.
+                        La plateforme s'engage à fournir un service équitable et transparent.
+                    </p>
+                    <p>
+                        Les décisions finales concernant la validation des votes et l'attribution
+                        des gains reviennent à l'administration Llamabuzz.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 7. Organisation -->
+            <div class="rule-card">
+                <div class="rule-header">
+                    <div class="rule-number">7</div>
+                    <h2>Organisation</h2>
+                </div>
+                <div class="rule-content">
+                    <p>
+                        <strong>Concours organisé par :</strong> LLAMABUZZ
+                    </p>
+                    <p>
+                        <strong>Partenaire officiel :</strong> LBS SHOP
+                    </p>
+                    <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                        <span class="prize-badge">
+                            <i class="fas fa-store"></i> LBS SHOP
+                        </span>
+                        <span class="prize-badge">
+                            <i class="fas fa-bolt"></i> Llamabuzz
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section résumé -->
+        <div class="summary-section">
+            <div class="summary-title">
+                <i class="fas fa-crown"></i>
+                En résumé
+            </div>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="summary-value">7</div>
+                    <div class="summary-label">Articles</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value">200 F</div>
+                    <div class="summary-label">Prix vote</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value">500</div>
+                    <div class="summary-label">Votes pour gagner</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value">100k</div>
+                    <div class="summary-label">Gain FCFA</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">LLAMABUZZ</div>
+            
+            <div class="footer-links">
+                <a href="index.html"><i class="fas fa-home"></i> Accueil</a>
+                <a href="classement.html"><i class="fas fa-trophy"></i> Classement</a>
+                <a href="rules.html"><i class="fas fa-scroll"></i> Règlement</a>
+                <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+            </div>
+
+            <div class="footer-partners">
+                <span class="partner-badge">🤝 Partenaire officiel : LBS SHOP</span>
+            </div>
+
+            <div class="footer-copyright">
+                © 2026 Llamabuzz - Tous droits réservés. <br>
+                Fait avec <i class="fas fa-heart" style="color: #22c55e;"></i> pour les créateurs
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bouton retour haut de page -->
+    <a href="#" class="back-button" title="Retour en haut">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <script>
+        // Smooth scroll pour le bouton retour
+        document.querySelector('.back-button').addEventListener('click', (e) => {
+            e.preventDefault()
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            })
+        })
+
+        // Animation au scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1'
+                    entry.target.style.transform = 'translateY(0)'
+                }
+            })
+        })
+
+        document.querySelectorAll('.rule-card').forEach(card => {
+            observer.observe(card)
+        })
+    </script>
+</body>
+</html>
