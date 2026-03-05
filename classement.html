@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Llamabuzz · Classement officiel 🏆</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0b1120;
+            color: #fff;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Background animé */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .background::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -10%;
+            width: 120%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(34, 197, 94, 0.1) 0%, transparent 50%);
+            animation: pulse 10s ease infinite;
+        }
+
+        .background::after {
+            content: '';
+            position: absolute;
+            bottom: -50%;
+            right: -10%;
+            width: 120%;
+            height: 200%;
+            background: radial-gradient(circle at 70% 50%, rgba(34, 197, 94, 0.08) 0%, transparent 50%);
+            animation: pulse 15s ease infinite reverse;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* Header */
+        .header {
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(34, 197, 94, 0.2);
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #22c55e, #4ade80);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+        }
+
+        .badge {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            padding: 0.5rem 1.5rem;
+            border-radius: 40px;
+            color: #22c55e;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Main container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Title section */
+        .title-section {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .title-section h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .title-section h1 i {
+            background: linear-gradient(135deg, #22c55e, #4ade80);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stats-banner {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #22c55e;
+        }
+
+        .stat-label {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Filters */
+        .filters {
+            background: rgba(30, 41, 59, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 60px;
+            padding: 0.75rem 1.5rem;
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .search-box i {
+            color: #64748b;
+        }
+
+        .search-box input {
+            background: transparent;
+            border: none;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            width: 100%;
+            outline: none;
+        }
+
+        .search-box input::placeholder {
+            color: #64748b;
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: #94a3b8;
+            padding: 0.5rem 1.25rem;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #22c55e;
+            color: white;
+            border-color: #22c55e;
+        }
+
+        /* Podium */
+        .podium {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .podium-card {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+            min-width: 200px;
+        }
+
+        .podium-card:hover {
+            transform: translateY(-5px);
+            border-color: #22c55e;
+            box-shadow: 0 20px 40px -20px #22c55e;
+        }
+
+        .podium-1 { order: 2; transform: scale(1.1); }
+        .podium-2 { order: 1; }
+        .podium-3 { order: 3; }
+
+        .podium-rank {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            font-weight: 700;
+            padding: 0.5rem 1.5rem;
+            border-radius: 40px;
+            font-size: 1.2rem;
+            box-shadow: 0 10px 20px -10px #22c55e;
+        }
+
+        .podium-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #22c55e20, #16a34a20);
+            border: 3px solid #22c55e;
+            border-radius: 50%;
+            margin: 1.5rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #22c55e;
+        }
+
+        .podium-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .podium-votes {
+            color: #22c55e;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        /* Liste des candidats */
+        .ranking-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .ranking-item {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .ranking-item:hover {
+            transform: translateX(5px);
+            border-color: #22c55e;
+            background: rgba(34, 197, 94, 0.1);
+        }
+
+        .rank {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #22c55e;
+            border: 1px solid #22c55e;
+        }
+
+        .rank.top-1 { background: #22c55e; color: #0b1120; border: none; }
+        .rank.top-2 { background: #f59e0b; color: #0b1120; border: none; }
+        .rank.top-3 { background: #64748b; color: #0b1120; border: none; }
+
+        .user-info {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #22c55e20, #16a34a20);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #22c55e;
+            font-weight: 600;
+        }
+
+        .user-details {
+            flex: 1;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .user-meta {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .vote-stats {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .vote-count {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #22c55e;
+        }
+
+        .vote-bar {
+            width: 100px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .vote-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #22c55e, #4ade80);
+            border-radius: 3px;
+        }
+
+        .vote-btn {
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .vote-btn:hover {
+            background: #16a34a;
+            transform: scale(1.05);
+        }
+
+        .vote-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Loading skeleton */
+        .skeleton {
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            animation: pulse 2s infinite;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 24px;
+            color: #64748b;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #64748b;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 3rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .ranking-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .user-info {
+                width: 100%;
+            }
+
+            .vote-stats {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .podium {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .podium-1 {
+                order: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">LLAMABUZZ</div>
+            <div class="badge">
+                <i class="fas fa-circle" style="font-size: 0.5rem;"></i>
+                Challenge 2026
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="title-section">
+            <h1>
+                <i class="fas fa-trophy"></i>
+                Classement officiel
+                <i class="fas fa-trophy"></i>
+            </h1>
+            
+            <div class="stats-banner" id="stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalCandidates">0</div>
+                    <div class="stat-label">Candidats</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="totalVotes">0</div>
+                    <div class="stat-label">Votes</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="topVotes">0</div>
+                    <div class="stat-label">Meilleur score</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtres -->
+        <div class="filters">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Rechercher un candidat...">
+            </div>
+            <div class="filter-options">
+                <button class="filter-btn active" data-filter="all">Tous</button>
+                <button class="filter-btn" data-filter="top10">Top 10</button>
+                <button class="filter-btn" data-filter="top3">Podium</button>
+            </div>
+        </div>
+
+        <!-- Podium (sera rempli par JS) -->
+        <div id="podium" class="podium"></div>
+
+        <!-- Liste des candidats -->
+        <div id="list" class="ranking-list">
+            <div class="skeleton">
+                <i class="fas fa-spinner fa-spin"></i> Chargement du classement...
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 Llamabuzz · Le challenge viral 🔥</p>
+    </footer>
+
+    <script type="module">
+        import { supabase } from "./crazy/supabase.js"
+
+        // Éléments DOM
+        const listContainer = document.getElementById('list')
+        const podiumContainer = document.getElementById('podium')
+        const searchInput = document.getElementById('searchInput')
+        const filterButtons = document.querySelectorAll('.filter-btn')
+        
+        // Stats elements
+        const totalCandidatesEl = document.getElementById('totalCandidates')
+        const totalVotesEl = document.getElementById('totalVotes')
+        const topVotesEl = document.getElementById('topVotes')
+
+        let allUsers = []
+        let currentFilter = 'all'
+
+        // Charger les données
+        async function loadRanking() {
+            try {
+                const { data, error } = await supabase
+                    .from("users")
+                    .select("*")
+                    .order("total_votes", { ascending: false })
+
+                if (error) throw error
+
+                allUsers = data || []
+                
+                // Mettre à jour les stats
+                updateStats()
+                
+                // Afficher le podium
+                displayPodium()
+                
+                // Afficher la liste
+                displayList()
+
+            } catch (error) {
+                console.error('Erreur chargement:', error)
+                listContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>Erreur de chargement</h3>
+                        <p>Impossible de charger le classement. Réessayez plus tard.</p>
+                    </div>
+                `
+            }
+        }
+
+        // Mettre à jour les statistiques
+        function updateStats() {
+            totalCandidatesEl.textContent = allUsers.length
+            const totalVotes = allUsers.reduce((sum, user) => sum + (user.total_votes || 0), 0)
+            totalVotesEl.textContent = totalVotes
+            topVotesEl.textContent = allUsers[0]?.total_votes || 0
+        }
+
+        // Afficher le podium
+        function displayPodium() {
+            const top3 = allUsers.slice(0, 3)
+            
+            if (top3.length === 0) {
+                podiumContainer.innerHTML = ''
+                return
+            }
+
+            const podiumHTML = top3.map((user, index) => {
+                const rank = index + 1
+                return `
+                    <div class="podium-card podium-${rank}">
+                        <div class="podium-rank">#${rank}</div>
+                        <div class="podium-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="podium-name">${user.username || 'Anonyme'}</div>
+                        <div class="podium-votes">${user.total_votes || 0} votes</div>
+                    </div>
+                `
+            }).join('')
+
+            podiumContainer.innerHTML = podiumHTML
+        }
+
+        // Afficher la liste filtrée
+        function displayList() {
+            let filteredUsers = [...allUsers]
+            
+            // Appliquer le filtre de recherche
+            if (searchInput.value) {
+                const searchTerm = searchInput.value.toLowerCase()
+                filteredUsers = filteredUsers.filter(user => 
+                    user.username?.toLowerCase().includes(searchTerm)
+                )
+            }
+            
+            // Appliquer le filtre de classement
+            if (currentFilter === 'top3') {
+                filteredUsers = filteredUsers.slice(0, 3)
+            } else if (currentFilter === 'top10') {
+                filteredUsers = filteredUsers.slice(0, 10)
+            }
+
+            if (filteredUsers.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-search"></i>
+                        <h3>Aucun résultat</h3>
+                        <p>Aucun candidat ne correspond à votre recherche.</p>
+                    </div>
+                `
+                return
+            }
+
+            // Calculer le max de votes pour les barres de progression
+            const maxVotes = Math.max(...allUsers.map(u => u.total_votes || 0), 1)
+
+            listContainer.innerHTML = filteredUsers.map((user, index) => {
+                const rank = allUsers.findIndex(u => u.id === user.id) + 1
+                const votePercentage = ((user.total_votes || 0) / maxVotes) * 100
+                
+                return `
+                    <div class="ranking-item">
+                        <div class="rank ${rank <= 3 ? `top-${rank}` : ''}">#${rank}</div>
+                        
+                        <div class="user-info">
+                            <div class="user-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="user-details">
+                                <div class="user-name">${user.username || 'Anonyme'}</div>
+                                <div class="user-meta">Inscrit depuis ${new Date(user.created_at || Date.now()).toLocaleDateString('fr-FR')}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="vote-stats">
+                            <div class="vote-count">${user.total_votes || 0}</div>
+                            <div class="vote-bar">
+                                <div class="vote-progress" style="width: ${votePercentage}%"></div>
+                            </div>
+                        </div>
+                        
+                        <a href="vote.html?user=${user.id}" class="vote-btn">
+                            <i class="fas fa-vote-yea"></i>
+                            Voter
+                        </a>
+                    </div>
+                `
+            }).join('')
+        }
+
+        // Event listeners
+        searchInput.addEventListener('input', displayList)
+        
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => b.classList.remove('active'))
+                btn.classList.add('active')
+                currentFilter = btn.dataset.filter
+                displayList()
+            })
+        })
+
+        // Charger au démarrage
+        loadRanking()
+
+        // Rafraîchir toutes les 15 secondes
+        setInterval(loadRanking, 15000)
+    </script>
+</body>
+</html>
