@@ -11,7 +11,18 @@ e.preventDefault()
 
 const name = document.getElementById("name").value
 const phone = document.getElementById("phone").value
+const { data:existing } = await supabase
+.from("votes")
+.select("*")
+.eq("voter_phone", phone)
 
+if(existing.length > 0){
+
+alert("Ce numéro a déjà voté")
+
+return
+
+}
 const { data:user } = await supabase
 .from("users")
 .select("*")
