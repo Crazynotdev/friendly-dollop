@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Llamabuzz · Mon Dashboard</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0b1120;
+            color: #e2e8f0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Background effect */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .background::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -10%;
+            width: 120%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(34, 197, 94, 0.1) 0%, transparent 50%);
+            animation: pulse 10s ease infinite;
+        }
+
+        .background::after {
+            content: '';
+            position: absolute;
+            bottom: -50%;
+            right: -10%;
+            width: 120%;
+            height: 200%;
+            background: radial-gradient(circle at 70% 50%, rgba(34, 197, 94, 0.08) 0%, transparent 50%);
+            animation: pulse 15s ease infinite reverse;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* Main card */
+        .dashboard {
+            max-width: 1000px;
+            width: 100%;
+            position: relative;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #22c55e, #4ade80);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+        }
+
+        .badge {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #22c55e;
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .badge i {
+            font-size: 0.8rem;
+        }
+
+        /* Welcome section */
+        .welcome-card {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 32px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #22c55e, #4ade80, #22c55e);
+            background-size: 200% 100%;
+            animation: gradient 3s linear infinite;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        .welcome-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .welcome-title i {
+            color: #22c55e;
+            font-size: 2rem;
+        }
+
+        .welcome-subtitle {
+            color: #94a3b8;
+            font-size: 1rem;
+        }
+
+        /* Stats grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: #22c55e;
+            box-shadow: 0 20px 40px -20px #22c55e;
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(34, 197, 94, 0.1);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #22c55e;
+        }
+
+        .stat-label {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            line-height: 1.2;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-progress {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #22c55e, #4ade80);
+            border-radius: 3px;
+            transition: width 1s ease;
+        }
+
+        /* Share card */
+        .share-card {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .share-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #22c55e;
+        }
+
+        .link-container {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .link-box {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            font-size: 0.95rem;
+            color: #94a3b8;
+            word-break: break-all;
+            display: flex;
+            align-items: center;
+        }
+
+        .copy-btn {
+            background: #22c55e;
+            border: none;
+            border-radius: 16px;
+            padding: 1rem 2rem;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+        }
+
+        .copy-btn:hover {
+            background: #16a34a;
+            transform: scale(1.02);
+        }
+
+        .copy-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Share buttons */
+        .share-buttons {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .share-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.03);
+            color: white;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .share-btn:hover {
+            background: rgba(34, 197, 94, 0.2);
+            border-color: #22c55e;
+            transform: translateY(-2px);
+        }
+
+        .share-btn.whatsapp:hover { background: rgba(37, 211, 102, 0.2); color: #25D366; }
+        .share-btn.facebook:hover { background: rgba(66, 103, 178, 0.2); color: #4267B2; }
+        .share-btn.twitter:hover { background: rgba(29, 161, 242, 0.2); color: #1DA1F2; }
+        .share-btn.telegram:hover { background: rgba(0, 136, 204, 0.2); color: #0088cc; }
+
+        /* Recent activity */
+        .activity-card {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 2rem;
+        }
+
+        .activity-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #22c55e;
+        }
+
+        .activity-list {
+            list-style: none;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            gap: 1rem;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #22c55e;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-text {
+            color: white;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-time {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .empty-activity {
+            text-align: center;
+            padding: 2rem;
+            color: #64748b;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #1e293b;
+            border-left: 4px solid #22c55e;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast i {
+            color: #22c55e;
+        }
+
+        /* Loading */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .loading i {
+            font-size: 2rem;
+            color: #22c55e;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    
+    <div class="dashboard">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo-area">
+                <div class="logo">LLAMABUZZ</div>
+                <div class="badge">
+                    <i class="fas fa-circle" style="font-size: 0.5rem;"></i>
+                    Challenge 2026
+                </div>
+            </div>
+            <div class="badge">
+                <i class="fas fa-user"></i>
+                <span id="username">Chargement...</span>
+            </div>
+        </div>
+
+        <!-- Welcome card -->
+        <div class="welcome-card">
+            <div class="welcome-title">
+                <i class="fas fa-chart-line"></i>
+                Mon Dashboard
+            </div>
+            <div class="welcome-subtitle">
+                Suivez vos performances et partagez votre lien de vote
+            </div>
+        </div>
+
+        <!-- Stats grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon"><i class="fas fa-vote-yea"></i></div>
+                    <span class="stat-label">Total votes</span>
+                </div>
+                <div class="stat-value" id="totalVotes">0</div>
+                <div class="stat-progress">
+                    <div class="progress-bar" id="votesProgress" style="width: 0%;"></div>
+                </div>
+                <div style="margin-top: 0.5rem; color: #94a3b8; font-size: 0.85rem;">
+                    <span id="votesTarget">0</span> / 500 votes
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon"><i class="fas fa-trophy"></i></div>
+                    <span class="stat-label">Position</span>
+                </div>
+                <div class="stat-value" id="ranking">#0</div>
+                <div style="margin-top: 1rem; color: #94a3b8; font-size: 0.85rem;">
+                    <i class="fas fa-arrow-up" style="color: #22c55e;"></i>
+                    <span id="rankingChange">0 places depuis hier</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                    <span class="stat-label">Objectif</span>
+                </div>
+                <div class="stat-value" id="daysLeft">0</div>
+                <div style="margin-top: 0.5rem; color: #94a3b8; font-size: 0.85rem;">
+                    jours restants
+                </div>
+            </div>
+        </div>
+
+        <!-- Share card -->
+        <div class="share-card">
+            <div class="share-title">
+                <i class="fas fa-share-alt"></i>
+                Votre lien personnel
+            </div>
+            
+            <div class="link-container">
+                <div class="link-box" id="linkDisplay">
+                    Chargement du lien...
+                </div>
+                <button class="copy-btn" onclick="copyLink()">
+                    <i class="fas fa-copy"></i>
+                    Copier
+                </button>
+            </div>
+
+            <div class="share-buttons">
+                <a href="#" id="shareWhatsapp" target="_blank" class="share-btn whatsapp">
+                    <i class="fab fa-whatsapp"></i>
+                    WhatsApp
+                </a>
+                <a href="#" id="shareFacebook" target="_blank" class="share-btn facebook">
+                    <i class="fab fa-facebook"></i>
+                    Facebook
+                </a>
+                <a href="#" id="shareTwitter" target="_blank" class="share-btn twitter">
+                    <i class="fab fa-x-twitter"></i>
+                    X
+                </a>
+                <a href="#" id="shareTelegram" target="_blank" class="share-btn telegram">
+                    <i class="fab fa-telegram"></i>
+                    Telegram
+                </a>
+            </div>
+        </div>
+
+        <!-- Recent activity -->
+        <div class="activity-card">
+            <div class="activity-title">
+                <i class="fas fa-history"></i>
+                Activité récente
+            </div>
+            
+            <div id="activityList">
+                <!-- Rempli par JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Lien copié !</span>
+    </div>
+
+    <script type="module">
+        import { supabase } from "./crazy/supabase.js"
+
+        // Elements DOM
+        const toast = document.getElementById('toast')
+        const toastMessage = document.getElementById('toastMessage')
+        
+        // Récupérer l'utilisateur
+        const userId = localStorage.getItem("user_id")
+        
+        if (!userId) {
+            window.location.href = "/login.html"
+        }
+
+        // Construire le lien
+        const baseUrl = window.location.origin
+        const voteLink = `${baseUrl}/vote.html?user=${userId}`
+        
+        // Afficher le lien
+        document.getElementById("linkDisplay").innerText = voteLink
+
+        // Configurer les liens de partage
+        const shareText = encodeURIComponent("Votez pour moi sur Llamabuzz ! 🔥")
+        const shareUrl = encodeURIComponent(voteLink)
+        
+        document.getElementById("shareWhatsapp").href = `https://wa.me/?text=${shareText}%20${shareUrl}`
+        document.getElementById("shareFacebook").href = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`
+        document.getElementById("shareTwitter").href = `https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`
+        document.getElementById("shareTelegram").href = `https://t.me/share/url?url=${shareUrl}&text=${shareText}`
+
+        // Fonction copier
+        window.copyLink = async () => {
+            try {
+                await navigator.clipboard.writeText(voteLink)
+                toastMessage.innerText = "Lien copié dans le presse-papier !"
+                toast.classList.add('show')
+                setTimeout(() => toast.classList.remove('show'), 3000)
+            } catch (err) {
+                console.error('Erreur copie:', err)
+            }
+        }
+
+        // Charger les données utilisateur
+        async function loadUserData() {
+            try {
+                const { data: user, error } = await supabase
+                    .from("users")
+                    .select("*")
+                    .eq("id", userId)
+                    .single()
+
+                if (error) throw error
+
+                // Afficher le nom d'utilisateur
+                document.getElementById("username").innerText = user.username || 'Utilisateur'
+                
+                // Afficher les votes
+                const totalVotes = user.total_votes || 0
+                document.getElementById("totalVotes").innerText = totalVotes
+                document.getElementById("votesTarget").innerText = totalVotes
+                
+                // Barre de progression vers 500 votes
+                const progressPercent = Math.min((totalVotes / 500) * 100, 100)
+                document.getElementById("votesProgress").style.width = progressPercent + '%'
+
+                // Calculer la position (classement)
+                const { data: rankings, error: rankError } = await supabase
+                    .from("users")
+                    .select("id, total_votes")
+                    .order("total_votes", { ascending: false })
+
+                if (!rankError && rankings) {
+                    const position = rankings.findIndex(u => u.id === userId) + 1
+                    document.getElementById("ranking").innerText = `#${position}`
+                    
+                    // Simuler un changement (à remplacer par vraies données)
+                    document.getElementById("rankingChange").innerText = `Position #${position}`
+                }
+
+                // Jours restants (fin du challenge : fin du mois)
+                const today = new Date()
+                const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0)
+                const daysLeft = Math.ceil((endOfMonth - today) / (1000 * 60 * 60 * 24))
+                document.getElementById("daysLeft").innerText = daysLeft
+
+                // Charger l'activité récente
+                await loadRecentActivity()
+
+            } catch (error) {
+                console.error('Erreur chargement:', error)
+            }
+        }
+
+        // Charger l'activité récente
+        async function loadRecentActivity() {
+            try {
+                const { data: votes, error } = await supabase
+                    .from("votes")
+                    .select("*, voters:profiles!voter_id(username)")
+                    .eq("candidate_id", userId)
+                    .order("created_at", { ascending: false })
+                    .limit(5)
+
+                const activityList = document.getElementById("activityList")
+
+                if (error || !votes || votes.length === 0) {
+                    activityList.innerHTML = `
+                        <div class="empty-activity">
+                            <i class="fas fa-bell" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                            <p>Aucune activité récente</p>
+                            <p style="font-size: 0.9rem;">Partagez votre lien pour recevoir des votes !</p>
+                        </div>
+                    `
+                    return
+                }
+
+                activityList.innerHTML = votes.map(vote => `
+                    <div class="activity-item">
+                        <div class="activity-dot"></div>
+                        <div class="activity-content">
+                            <div class="activity-text">
+                                <strong>${vote.voters?.username || 'Quelqu\'un'}</strong> a voté pour vous
+                            </div>
+                            <div class="activity-time">
+                                ${new Date(vote.created_at).toLocaleDateString('fr-FR', {
+                                    day: '2-digit',
+                                    month: 'long',
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                })}
+                            </div>
+                        </div>
+                        <i class="fas fa-check-circle" style="color: #22c55e;"></i>
+                    </div>
+                `).join('')
+
+            } catch (error) {
+                console.error('Erreur activité:', error)
+            }
+        }
+
+        // Initialiser
+        loadUserData()
+
+        // Rafraîchir toutes les 10 secondes
+        setInterval(loadUserData, 10000)
+    </script>
+</body>
+</html>
