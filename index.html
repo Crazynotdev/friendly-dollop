@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Llamabuzz · Le défi viral 🔥</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0b1120;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header moderne */
+        header {
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(34, 197, 94, 0.2);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #22c55e, #4ade80);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+            display: inline-block;
+        }
+
+        .logo::after {
+            content: "™";
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: #64748b;
+            margin-left: 2px;
+        }
+
+        /* Hero section avec effet de glow */
+        .hero {
+            padding: 5rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -10%;
+            width: 120%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(34, 197, 94, 0.1) 0%, transparent 70%);
+            animation: pulse 8s ease infinite;
+            pointer-events: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, #22c55e, #4ade80);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        .prize-card {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(2, 6, 23, 0.5));
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 32px;
+            padding: 2rem;
+            max-width: 600px;
+            margin: 2rem auto;
+            backdrop-filter: blur(10px);
+        }
+
+        .prize-amount {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #22c55e;
+            margin: 0.5rem 0;
+        }
+
+        .prize-amount small {
+            font-size: 1rem;
+            color: #94a3b8;
+            font-weight: 400;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid rgba(34, 197, 94, 0.5);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.9rem;
+            color: #4ade80;
+            margin: 0.5rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 60px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            box-shadow: 0 10px 20px -10px #22c55e;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 30px -10px #22c55e;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #22c55e;
+            transform: translateY(-2px);
+        }
+
+        /* Section comment ça marche */
+        .section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #22c55e, transparent);
+            border-radius: 2px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 2rem 1.5rem;
+            border-radius: 24px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #22c55e;
+            box-shadow: 0 20px 40px -20px #22c55e;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #22c55e;
+        }
+
+        .card p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        .card .price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #22c55e;
+            margin-top: 1rem;
+        }
+
+        /* Classement */
+        .ranking-container {
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 32px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        #ranking {
+            list-style: none;
+        }
+
+        #ranking li {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            font-size: 1.1rem;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        #ranking li:hover {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: #22c55e;
+        }
+
+        .rank-number {
+            width: 40px;
+            height: 40px;
+            background: #22c55e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-weight: 700;
+            color: #0b1120;
+        }
+
+        .user-info {
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-name {
+            font-weight: 600;
+        }
+
+        .vote-count {
+            background: rgba(34, 197, 94, 0.2);
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            color: #22c55e;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #020617;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(34, 197, 94, 0.2);
+            color: #64748b;
+        }
+
+        /* Animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating {
+            animation: float 6s ease infinite;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .prize-amount {
+                font-size: 2rem;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">LLAMABUZZ</div>
+    </header>
+
+    <main>
+        <div class="hero">
+            <div class="badge">🔥 CHALLENGE VIRAL 2026</div>
+            <h1>Le défi <span>viral</span> du moment</h1>
+            
+            <div class="prize-card">
+                <p style="color:#94a3b8; text-transform:uppercase; letter-spacing:2px;">💰 Cagnotte totale</p>
+                <div class="prize-amount">
+                    100 000 FCFA <small>+</small>
+                </div>
+                <div class="prize-amount" style="font-size:2rem;">
+                    👕 Maillot LBS SHOP
+                </div>
+                <p style="margin-top:1rem; color:#22c55e;">⚡ 200 FCFA = 1 vote</p>
+                <p style="color:#94a3b8;">Le premier à <strong style="color:white;">500 votes</strong> remporte tout !</p>
+            </div>
+
+            <div class="button-group">
+                <a href="register.html">
+                    <button class="btn btn-primary">🚀 Participer maintenant</button>
+                </a>
+                <a href="classement.html">
+                    <button class="btn btn-secondary">📊 Voir le classement</button>
+                </a>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Comment ça marche ?</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>1️⃣ Inscription</h3>
+                    <p>Crée ton compte gratuitement et reçois ton lien de vote personnel unique.</p>
+                </div>
+                <div class="card">
+                    <h3>2️⃣ Partage</h3>
+                    <p>Partage ton lien à fond sur WhatsApp, TikTok et Instagram pour récolter des votes.</p>
+                </div>
+                <div class="card">
+                    <h3>3️⃣ Votes</h3>
+                    <p>Chaque vote coûte <strong class="price">200 FCFA</strong> – tes fans te soutiennent !</p>
+                </div>
+                <div class="card">
+                    <h3>4️⃣ Gagne</h3>
+                    <p>Le premier à atteindre <strong>500 votes</strong> empoche 100k FCFA + le maillot !</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Top candidats 🔥</h2>
+            <div class="ranking-container">
+                <ul id="ranking" class="ranking">
+                    <!-- Le JS remplira ici -->
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2026 Llamabuzz – Tous droits réservés</p>
+        <p style="margin-top:1rem; font-size:0.9rem;">✨ Le challenge qui rend célèbre ✨</p>
+    </footer>
+
+    <script type="module">
+        import { supabase } from "./crazy/supabase.js"
+
+        async function loadRanking() {
+            try {
+                const { data, error } = await supabase
+                    .from("users")
+                    .select("*")
+                    .order("total_votes", { ascending: false })
+                    .limit(5)
+
+                if (error) throw error
+
+                const list = document.getElementById("ranking")
+                
+                if (!data || data.length === 0) {
+                    list.innerHTML = '<div style="text-align:center; padding:2rem; color:#64748b;">Aucun candidat pour le moment. Sois le premier ! 🚀</div>'
+                    return
+                }
+
+                list.innerHTML = data.map((user, index) => `
+                    <li>
+                        <div class="rank-number">${index + 1}</div>
+                        <div class="user-info">
+                            <span class="user-name">${user.username || 'Anonyme'}</span>
+                            <span class="vote-count">${user.total_votes || 0} votes</span>
+                        </div>
+                    </li>
+                `).join('')
+                
+            } catch (error) {
+                console.error("Erreur chargement classement:", error)
+                document.getElementById("ranking").innerHTML = '<div style="color:#ef4444;">⚠️ Erreur de chargement</div>'
+            }
+        }
+
+        loadRanking()
+    </script>
+</body>
+</html>
