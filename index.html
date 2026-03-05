@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Llamabuzz - Inscription</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script type="module" src="crazy/register.js"></script>
+  <style>
+    /* === ARRIÈRE-PLAN IDENTIQUE AU PEN === */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0b0719, #1a1a2f, #0f0c1f);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Particules de fond (réseau/neurones) */
+    .bg-particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: rgba(255, 215, 0, 0.3);
+      border-radius: 50%;
+      box-shadow: 0 0 10px gold;
+      animation: floatParticle 20s linear infinite;
+    }
+
+    @keyframes floatParticle {
+      0% { transform: translateY(100vh) scale(1); opacity: 0; }
+      10% { opacity: 0.8; }
+      90% { opacity: 0.8; }
+      100% { transform: translateY(-100vh) scale(2); opacity: 0; }
+    }
+
+    /* Lignes de connexion (réseau) */
+    .connection-line {
+      position: absolute;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+      transform-origin: left;
+      animation: fadePulse 4s ease-in-out infinite;
+    }
+
+    @keyframes fadePulse {
+      0%, 100% { opacity: 0.1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* Conteneur principal (au-dessus du fond) */
+    .container {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 450px;
+      padding: 2rem;
+      animation: containerAppear 0.8s ease-out;
+    }
+
+    @keyframes containerAppear {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Votre logo */
+    .logo-container {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .logo-container img {
+      max-width: 200px;
+      height: auto;
+      filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
+      animation: logoFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes logoFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* Formulaire avec effet de verre */
+    #registerForm {
+      background: rgba(20, 20, 30, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      border-radius: 30px;
+      padding: 2.5rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 215, 0, 0.2);
+      transition: all 0.4s ease;
+    }
+
+    #registerForm:hover {
+      border-color: rgba(255, 215, 0, 0.5);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 215, 0, 0.3);
+      transform: translateY(-5px);
+    }
+
+    h1 {
+      color: white;
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 2.2rem;
+      font-weight: 400;
+      letter-spacing: 2px;
+      text-shadow: 0 0 20px gold;
+    }
+
+    /* Champs de formulaire (inchangés logiquement) */
+    input {
+      width: 100%;
+      padding: 1rem 1.2rem;
+      margin-bottom: 1.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      border-radius: 15px;
+      color: white;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: gold;
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    }
+
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    button {
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1));
+      border: 1px solid gold;
+      border-radius: 15px;
+      color: white;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-top: 1rem;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 215, 0, 0.2));
+      box-shadow: 0 0 30px gold;
+      transform: translateY(-3px);
+    }
+
+    #message {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: rgba(20, 20, 30, 0.8);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      border-radius: 12px;
+      color: white;
+      text-align: center;
+      animation: messageSlide 0.4s ease;
+    }
+
+    @keyframes messageSlide {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .container {
+        padding: 1rem;
+      }
+      
+      #registerForm {
+        padding: 1.5rem;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Arrière-plan avec particules -->
+  <div class="bg-particles" id="bgParticles"></div>
+
+  <div class="container">
+    <!-- Votre logo (à remplacer par votre URL) -->
+    <div class="logo-container">
+      <img src="https://files.catbox.moe/k4og38.jpg" alt="Llamabuzz Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+      <div style="display: none; color: white; padding: 1rem; border: 1px dashed gold; border-radius: 10px;">
+        Logo non trouvé - remplacez l'attribut src
+      </div>
+    </div>
+
+    <form id="registerForm">
+      <h1>Créer un compte</h1>
+      
+      <input type="text" id="username" placeholder="Nom d'utilisateur" required>
+      <input type="email" id="email" placeholder="Adresse email" required>
+      <input type="password" id="password" placeholder="Mot de passe" required minlength="6">
+      
+      <button type="submit">Rejoindre Llamabuzz</button>
+    </form>
+
+    <div id="message"></div>
+  </div>
+
+  <script>
+    // === GÉNÉRATION DE L'ARRIÈRE-PLAN DYNAMIQUE ===
+    (function() {
+      const bgParticles = document.getElementById('bgParticles');
+      
+      // Création des particules
+      for (let i = 0; i < 80; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 15 + 's';
+        particle.style.animationDuration = (10 + Math.random() * 20) + 's';
+        particle.style.width = (1 + Math.random() * 3) + 'px';
+        particle.style.height = particle.style.width;
+        particle.style.background = `rgba(255, ${155 + Math.random() * 100}, 0, ${0.2 + Math.random() * 0.3})`;
+        bgParticles.appendChild(particle);
+      }
+      
+      // Création des lignes de connexion
+      for (let i = 0; i < 15; i++) {
+        const line = document.createElement('div');
+        line.className = 'connection-line';
+        line.style.left = Math.random() * 100 + '%';
+        line.style.top = Math.random() * 100 + '%';
+        line.style.width = (50 + Math.random() * 150) + 'px';
+        line.style.transform = `rotate(${Math.random() * 360}deg)`;
+        line.style.animationDelay = Math.random() * 5 + 's';
+        bgParticles.appendChild(line);
+      }
+      
+      // Animation de déplacement des particules avec la souris (effet parallaxe)
+      document.addEventListener('mousemove', (e) => {
+        const mouseX = e.clientX / window.innerWidth - 0.5;
+        const mouseY = e.clientY / window.innerHeight - 0.5;
+        
+        const particles = document.querySelectorAll('.particle');
+        particles.forEach((p, index) => {
+          const speed = (index % 5) / 10 + 0.1;
+          p.style.transform = `translate(${mouseX * speed * 30}px, ${mouseY * speed * 30}px)`;
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
