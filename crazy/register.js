@@ -1,24 +1,32 @@
-import { supabase } from './supabase.js'
+import { supabase } from "./supabase.js"
 
-const form = document.getElementById('registerForm')
-const message = document.getElementById('message')
+const form = document.getElementById("registerForm")
 
-form.addEventListener('submit', async (e)=>{
-    e.preventDefault()
-    const username = document.getElementById('username').value
-    const email = document.getElementById('email').value
-    const password = document.getElementById('password').value
+form.addEventListener("submit", async (e) => {
 
-    const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-    })
+e.preventDefault()
 
-    if(error) message.innerText = error.message
-    else{
-        // Créer user dans table users + credits
-        await supabase.from('users').insert([{id: data.user.id, username, email}])
-        await supabase.from('credits').insert([{user_id: data.user.id, balance: 0}])
-        message.innerText = "Compte créé ! Vérifiez votre email."
-    }
+const username = document.getElementById("username").value
+const email = document.getElementById("email").value
+const phone = document.getElementById("phone").value
+
+const shareLink = "https://llamabuzz-ga.vercel.app/vote.html?user=" + username
+
+const { data, error } = await supabase
+.from("users")
+.insert([
+{
+username: username,
+email: email,
+phone: phone,
+share_link: shareLink
+}
+])
+
+if(error){
+alert("Erreur")
+}else{
+alert("Compte créé !")
+}
+
 })
